@@ -16,6 +16,9 @@ Bu proje, **Google Trends** üzerindeki arama ilgisinin Türkiye'deki büyük e-
 
 > *"Google Trends arama verisi, e-ticaret platformlarındaki haftalık yorum sayılarını istatistiksel olarak önceleyen (Granger-cause eden) bir sinyal olarak kullanılabilir mi? Bu sinyalin tahmin modellerine eklenmesi, model performansını artırır mı?"*
 
+![Keşifsel Veri Analizi - Trends vs Yorumlar](eda_grafik.png)
+*Yukarıdaki grafik: Kategori bazında Google Trends arama skoru ile haftalık yorum sayılarının zaman içindeki uyumu.*
+
 ---
 
 ## 📦 İncelenen Ürün Kategorileri
@@ -93,6 +96,9 @@ Projede **3 temel (baseline) model** ve bu modellerin **Google Trends verisiyle 
 * ⏱️ **Çapraz Korelasyon Analizi (CCF):** Arama hacmindeki artışın, yorumlara yansıması arasındaki zaman gecikmesini (lag) ölçer.
 * 📏 **ADF Durağanlık Testi:** Zaman serilerinin modellemeye ve testlere uygunluğunu (durağanlığını) kontrol eder.
 
+![CCF Analizi](ccf_analiz.png)
+*Yukarıdaki grafik: Kategori bazında Google Trends verisinin yorum yoğunluğunu kaç hafta (lag) önceden tahmin edebildiğini gösteren çapraz korelasyon analizi.*
+
 ---
 
 ## 📂 Proje Dosya Yapısı
@@ -131,10 +137,12 @@ tez_projesi/
 │   ├── master_dataset.xlsx
 │   └── [Model & Test Sonuçları .xlsx dosyaları]
 │
-└── Grafikler/
-    ├── eda_grafik.png
-    ├── ccf_analiz.png
-    └── ozet_model_karsilastirma.png
+├── eda_grafik.png
+├── ccf_analiz.png
+├── ozet_model_karsilastirma.png
+├── yon_tutarliligi.png
+├── platform_analiz_grafik.png
+└── README.md
 ```
 
 ---
@@ -193,17 +201,22 @@ python hibrit_prophet.py
 
 ---
 
----
-
 ## 🏆 Proje Sonuçları ve Bulgular
 
 Analiz ve modelleme aşamaları sonucunda elde edilen temel bulgular şunlardır:
 
-* 🔍 **Granger Nedensellik Testi:** Google Trends verilerinin, e-ticaret yorum sayıları için istatistiksel olarak anlamlı bir öncü sinyal (zaman gecikmesi/lag) barındırdığı tespit edilmiştir (p < 0.05).
-* 📈 **Model Performansı:** Sadece geçmiş yorum verisiyle eğitilen temel modellere kıyasla, Google Trends sinyaliyle desteklenen **Hibrit modeller (ör. Hibrit LSTM ve ARIMAX)**, MAPE ve MAE metriklerinde daha düşük hata payı sunmuştur.
-* 🛒 **Kategori Etkisi:** Arama hacmi ile yorum sayısı arasındaki tahmin edici ilişki, özellikle araştırmaya daha fazla ihtiyaç duyulan ve mevsimsellik gösteren kategorilerde (ör. Klima, Robot Süpürge) çok daha belirgin şekilde gözlemlenmiştir.
+* 📈 **Model Performansı:** Sadece geçmiş yorum verisiyle eğitilen temel modellere kıyasla, Google Trends sinyaliyle desteklenen **Hibrit modeller (ör. Hibrit LSTM ve ARIMAX)**, MAPE ve MAE metriklerinde çok daha düşük hata payı sunmuştur.
+  
+![Model Karşılaştırması](ozet_model_karsilastirma.png)
+*Yukarıdaki grafik: Temel modeller ile Trends destekli hibrit modellerin MAPE (Ortalama Mutlak Yüzde Hata) bazında karşılaştırması. Düşük değerler daha yüksek başarıyı temsil eder.*
 
-*(Detaylı sonuç raporlarına ve performans karşılaştırmalarına `Çıktı Dosyaları/` dizininden ulaşabilirsiniz.)*
+* 🔍 **Granger Nedensellik ve Yön Tutarlılığı:** Google Trends verilerinin, e-ticaret yorum sayıları için istatistiksel olarak anlamlı bir öncü sinyal (p < 0.05) barındırdığı ve Trends artışlarının yorum artışlarını tutarlı bir şekilde (%50'nin üzerinde) öncelediği tespit edilmiştir.
+
+![Yön Tutarlılığı](yon_tutarliligi.png)
+
+* 🛒 **Kategori ve Platform Etkisi:** Arama hacmi ile yorum sayısı arasındaki tahmin edici ilişki, özellikle araştırmaya daha fazla ihtiyaç duyulan ve mevsimsellik gösteren kategorilerde (ör. Klima, Robot Süpürge) çok daha belirgin şekilde gözlemlenmiştir. 
+
+![Platform Bazlı Analiz](platform_analiz_grafik.png)
 
 ---
 
